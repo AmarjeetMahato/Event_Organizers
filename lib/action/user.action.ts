@@ -1,15 +1,14 @@
 'use server'
 
 import { CreateUserParams } from "@/types"
-import { connectToDatabase } from "../database"
-import User from "../database/models/user.model";
-
+import prisma from "@/lib/prismadb"
 
 export const createUser = async (user:CreateUserParams) => {
    
      try {
-            await connectToDatabase();
-            const newUser = await User.create(user)   
+            const newUser = await prisma.user.create({
+              data:user
+            })  
 
             return JSON.parse(JSON.stringify(newUser))
      } catch (error:any) {
